@@ -33,16 +33,6 @@ let c3 = addToState(10); // 17
 let c4 = addToState(-8); // 9
 ```
 
-## Higher Order Functions
-
-Higher order functions are functions that can accept as a parameter or return another function. 
-The filter, map and reduce functions on the Array object are considered higher order functions.
-
-```Javascript
-const myArray = [2, 4, 7, 9, 11, 14, 17, 21];
-const secondArray = myArray.filter(i => i >= 12); // secondArray populated by 14, 17, 21;  
-```
-
 ## Object factories vs Class
 
 The Class keyword that was added to EcmaScript 2015 is considered controversial. 
@@ -131,4 +121,72 @@ const Dog = MakeAnimal('Perro', 3);
 
 Cat.printAnimal(); // You have a Gato with 4 limbs.
 Dog.printAnimal(); // You have a Perro with 3 limbs.
+```
+
+## Higher Order Functions
+
+Higher order functions are functions that can accept as a parameter or return another function. 
+The filter, map and reduce functions on the Array object are considered higher order functions.
+
+```Javascript
+function numbersGTE12(item) {
+    return (item => 12);
+}
+
+const myArray = [2, 4, 7, 9, 11, 14, 17, 21];
+const secondArray = myArray.filter(numbersGTE12); // secondArray populated by 14, 17, 21;  
+```
+
+## Filter
+
+The filter function was added to ES5.1, and takes a function as its parameter that returns a boolean to determine which items in the array should be returned. These functions can be used as anonymous functions or using the '=>' operator.
+
+```Javascript
+const orders = [
+    { user: 'Dave', type: 'part', amount: 250 },
+    { user: 'Dave', type: 'auto', amount: 400 },
+    { user: 'Sam', type: 'service', amount: 100 },
+    { user: 'Sam', type: 'analysis', amount: 325 },
+    { user: 'Dave', type: 'part', amount: 100 },
+    { user: 'Sam', type: 'auto', amount: 325 }
+];
+
+const filteredOrders = orders.filter(f => f.amount > 100);
+
+console.log(filteredOrders);
+// returns the following items;
+/*
+[
+    { user: 'Dave', type: 'part', amount: 250 },
+    { user: 'Dave', type: 'auto', amount: 400 },
+    { user: 'Sam', type: 'analysis', amount: 325 },
+    { user: 'Sam', type: 'auto', amount: 325 }
+]; 
+ */
+```
+
+## Map
+
+Map is another example of a higher order function. Map allows for the programmer to change the items in an array to a new object or value.
+
+```Javascript
+// Add twenty percent tip to prices.
+const totalsArray = [6.25, 7.80, 12.50, 20.10];
+const priceWithTip = totalsArray.map(p => p * 1.2);
+// result [ 7.5, 9.36, 15, 24.12 ]
+```
+
+## Reduce
+
+Reduce can be used to group or sumarize values in an array. The combinations of map and reduce are very popular in Big Data analysis.
+
+```Javascript
+const totals = [ 7.5, 9.36, 15, 24.12 ];
+
+const totalsWTip = totals.reduce((a, i) => {
+    let deci = i * 120;
+    let tip = deci / 100;
+    a += tip;
+    return a;
+}, 0);
 ```
