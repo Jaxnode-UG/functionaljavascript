@@ -4,7 +4,8 @@ const {promisify} = require('util');
 const fs = require('fs');
 const readFileAsync = promisify(fs.readFile); // (A)
 
-const filePath = process.argv[2];
+//const filePath = process.argv[2];
+const filePath = 'allwork.txt';
 
 readFileAsync(filePath, {encoding: 'utf8'})
   .then((text) => {
