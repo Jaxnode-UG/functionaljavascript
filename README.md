@@ -190,3 +190,7 @@ const totalsWTip = totals.reduce((a, i) => {
     return a;
 }, 0);
 ```
+
+## Functors
+
+## Monads
