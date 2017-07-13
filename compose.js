@@ -13,3 +13,10 @@ const speakingAnimal = {
 const myCat = animal('Bebe', 'Gato');
 const meowingCat = Object.assign({}, myCat, speakingAnimal);
 meowingCat.speak();
+
+const myDog = {
+  name: 'Spot',
+  type: 'El Perro'
+};
+const barkingDog = Object.assign({}, myDog, speakingAnimal);
+barkingDog.speak();
