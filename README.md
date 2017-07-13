@@ -123,6 +123,26 @@ Cat.printAnimal(); // You have a Gato with 4 limbs.
 Dog.printAnimal(); // You have a Perro with 3 limbs.
 ```
 
+## Currying
+
+Currying allows for the creation of functions that return other functions. 
+
+```Javascript
+const greeter = function(greeting) {
+    return function(name) {
+        console.log(`${greeting} there ${name}!`);
+    }
+};
+
+const greet = greeter('Hi');
+greet('David'); // Hi there David!
+greet('Andy'); // Hi there Andy!
+
+// or
+
+greeter('Hi')('Frank'); // Hi there Frank!
+```
+
 ## Higher Order Functions
 
 Higher order functions are functions that can accept as a parameter or return another function. 
@@ -191,6 +211,70 @@ const totalsWTip = totals.reduce((a, i) => {
 }, 0);
 ```
 
-## Functors
+## Promises
 
-## Monads
+Promises give a cleaner way of handling asyncronous behavior. In a lot of early Node.js development error first callbacks became the standard way of doing async. The fetch example below is a good example of how callbacks can be chained and handled in a linear way. This is also a example of the Monad pattern.
+
+```Javascript
+fetch('https://www.jaxnode.com/v1/api/meeting')
+            .then(response => {
+                return response.json();
+            })
+            .then(json => {
+                console.log(json);
+            })
+            .catch(err => {
+                console.error(err);
+            });
+```
+
+Promises are defined by creating a Promise object, and using resolve and reject callback functions to handle the success or errors that may occur during execution.
+
+```Javascript
+// Copyright Mozilla.org
+function myAsyncFunction(url) {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", url);
+    xhr.onload = () => resolve(xhr.responseText);
+    xhr.onerror = () => reject(xhr.statusText);
+    xhr.send();
+  });
+});
+```
+
+### Promisfy Error First Callbacks
+
+Node.js v8 and newer has a mechanism for converting existing error first callbacks into promises.
+
+```Javascript
+const util = require('util');
+const fs = require('fs');
+
+const stat = util.promisify(fs.stat);
+
+stat('.')
+    .then((stats) => {
+      console.log(stats);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
+``` 
+
+### Promises with Async and Await
+
+The Async and Await keywords require the use of promises. Await is used in front of the promise instead of passing a function into the `then` method.
+
+```Javascript
+const util = require('util');
+const fs = require('fs');
+
+const stat = util.promisify(fs.stat);
+
+async function callStat() {
+  const stats = await stat('.');
+  console.log(`This directory is owned by ${stats.uid}`);
+}
+```
+Copyright David Fekke 2017
